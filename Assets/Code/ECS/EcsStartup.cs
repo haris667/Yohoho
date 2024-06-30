@@ -1,40 +1,53 @@
-﻿using Leopotam.Ecs;
+﻿using ECS.Player;
+using ECS.Player.Camera;
+using Leopotam.Ecs;
+using SO;
 using UnityEngine;
+using Voody.UniLeo;
 
-namespace ECS{
-    sealed class EcsStartup : MonoBehaviour {
+namespace ECS
+{
+    sealed class EcsStartup : MonoBehaviour 
+    {
         EcsWorld _world;
         EcsSystems _systems;
+        EcsSystems _fixedSystems;
 
-        void Start () {
-            // void can be switched to IEnumerator for support coroutines.
-            
+        public PlayerConfig playerConfig;
+        public CameraConfig cameraConfig;
+        public Camera camera;
+
+        void Start () 
+        {            
             _world = new EcsWorld ();
             _systems = new EcsSystems (_world);
+            _fixedSystems = new EcsSystems(_world);
 #if UNITY_EDITOR
             Leopotam.Ecs.UnityIntegration.EcsWorldObserver.Create (_world);
             Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create (_systems);
+            Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create(_fixedSystems);
 #endif
             _systems
-                // register your systems here, for example:
-                // .Add (new TestSystem1 ())
-                // .Add (new TestSystem2 ())
-                
-                // register one-frame components (order is important), for example:
-                // .OneFrame<TestComponent1> ()
-                // .OneFrame<TestComponent2> ()
-                
-                // inject service instances here (order doesn't important), for example:
-                // .Inject (new CameraService ())
-                // .Inject (new NavMeshSupport ())
+                .ConvertScene()//для конвертации геймобджектов в ecs сущности. Мне показалось удобнее,
+                               //нежели писать мосты
                 .Init ();
+
+            _fixedSystems
+                .ConvertScene()
+                .Add(new PlayerMoveSystem())
+                .Add(new CameraMoveSystem())
+                .Inject(camera)
+                .Inject(cameraConfig)
+                .Inject(playerConfig)
+                .Init();
         }
 
-        void Update () {
-            _systems?.Run ();
-        }
+        void Update () => _systems?.Run();
 
-        void OnDestroy () {
+        void FixedUpdate() => _fixedSystems?.Run();
+
+        void OnDestroy () 
+        {
             if (_systems != null) {
                 _systems.Destroy ();
                 _systems = null;

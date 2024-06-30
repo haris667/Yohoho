@@ -1,5 +1,9 @@
-﻿namespace ECS.Player{
-    struct InputData {
-        // add your data here.
+﻿namespace ECS.Player
+{
+    [System.Serializable]
+    public struct InputData 
+    {
+        public FloatingJoystick joystick;
+        public bool isMoved;
     }
 }
