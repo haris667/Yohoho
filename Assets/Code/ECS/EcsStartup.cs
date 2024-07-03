@@ -3,7 +3,9 @@ using ECS.Player.Camera;
 using Leopotam.Ecs;
 using SO;
 using UnityEngine;
+using LeoEcsPhysics;
 using Voody.UniLeo;
+using ECS.Player.Baggage;
 
 namespace ECS
 {
@@ -17,36 +19,43 @@ namespace ECS
         public CameraConfig cameraConfig;
         public Camera camera;
 
-        void Start () 
+        void Start() 
         {            
-            _world = new EcsWorld ();
+            _world = new EcsWorld();
+            EcsPhysicsEvents.ecsWorld = _world;
+
             _systems = new EcsSystems (_world);
             _fixedSystems = new EcsSystems(_world);
+            
 #if UNITY_EDITOR
             Leopotam.Ecs.UnityIntegration.EcsWorldObserver.Create (_world);
             Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create (_systems);
             Leopotam.Ecs.UnityIntegration.EcsSystemsObserver.Create(_fixedSystems);
 #endif
             _systems
-                .ConvertScene()//для конвертации геймобджектов в ecs сущности. Мне показалось удобнее,
-                               //нежели писать мосты
+                .ConvertScene()
                 .Init ();
 
             _fixedSystems
                 .ConvertScene()
                 .Add(new PlayerMoveSystem())
                 .Add(new CameraMoveSystem())
+                .Add(new BaggageSystem())
+
+                .OneFramePhysics()
+
                 .Inject(camera)
                 .Inject(cameraConfig)
                 .Inject(playerConfig)
+
                 .Init();
         }
 
-        void Update () => _systems?.Run();
+        void Update() => _systems?.Run();
 
         void FixedUpdate() => _fixedSystems?.Run();
 
-        void OnDestroy () 
+        void OnDestroy() 
         {
             if (_systems != null) {
                 _systems.Destroy ();
