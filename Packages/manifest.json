@@ -2,6 +2,7 @@
   "dependencies": {
     "com.leopotam.ecs": "https://github.com/Leopotam/ecs.git",
     "com.leopotam.ecs-unityintegration": "https://github.com/Leopotam/ecs-unityintegration.git",
+    "com.supremestranger.leoecs-physics": "https://github.com/supremestranger/leoecs-physics.git",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.collab-proxy": "2.4.3",
     "com.unity.feature.development": "1.0.1",
