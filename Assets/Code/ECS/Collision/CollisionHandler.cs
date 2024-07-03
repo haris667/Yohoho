@@ -1,4 +1,5 @@
-﻿using Leopotam.Ecs;
+﻿using ECS.Events;
+using Leopotam.Ecs;
 using UnityEngine;
 
 namespace ECS.Collision
@@ -14,6 +15,12 @@ namespace ECS.Collision
             _entity = entity;
             _world = world;
         }
+
+        private void OnCollisionEnter(UnityEngine.Collision collision)
+        {
+            var entity = _world.NewEntity();
+            var collEvt = _world.GetPool<CollisionEvent>();
+            ref var evt = ref collEvt.
+        }
     }
-    
 }
