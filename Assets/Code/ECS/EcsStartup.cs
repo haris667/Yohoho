@@ -6,6 +6,7 @@ using UnityEngine;
 using LeoEcsPhysics;
 using Voody.UniLeo;
 using ECS.Player.Baggage;
+using ECS.Services;
 
 namespace ECS
 {
@@ -47,6 +48,7 @@ namespace ECS
                 .Inject(camera)
                 .Inject(cameraConfig)
                 .Inject(playerConfig)
+                .Inject(new CollisionCheckService())
 
                 .Init();
         }

@@ -10,5 +10,13 @@ namespace ECS.Items
         public string name;
         public Image icon;
         public Material material;
+        public ItemType type;
+    }
+
+    public enum ItemType
+    {
+        Red,
+        Blue,
+        Yellow
     }
 }

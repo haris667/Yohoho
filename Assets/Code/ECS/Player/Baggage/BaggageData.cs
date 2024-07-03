@@ -1,5 +1,10 @@
-﻿namespace ECS.Player.Baggage{
-    struct BaggageData {
-        // add your data here.
+﻿using ECS.Items;
+using System.Collections.Generic;
+
+namespace ECS.Player.Baggage
+{
+    struct BaggageData 
+    {
+        public Stack<ItemData> items;
     }
 }

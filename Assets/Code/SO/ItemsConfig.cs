@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ECS.Items;
+using UnityEngine;
 
 namespace SO
 {
@@ -15,5 +16,6 @@ namespace SO
         public string name;
         public Sprite icon;
         public Material material;
+        public ItemType type;
     }
 }
