@@ -29,11 +29,15 @@ namespace ECS.Player.Baggage
         private void CreateItem(BaggageData baggageData, TransformData transformData)
         {
             parent = transformData.transform;
-            positionItem = _baggageConfig.shift;
-            //positionItem.y += baggageData.items.Count * _baggageConfig.increasingNewItem;
+            positionItem = Vector3.zero;
+            positionItem.y += baggageData.items.Count * _baggageConfig.increasingNewItem;
 
-            GameObject item = GameObject.Instantiate(_baggageConfig.prefab, positionItem, Quaternion.identity, parent);
+            GameObject item = GameObject.Instantiate(_baggageConfig.prefab, parent);
+            item.transform.localPosition = positionItem + _baggageConfig.shift;
+            item.transform.rotation = parent.rotation;
             item.GetComponent<MeshRenderer>().material = baggageData.items.Peek().material;
+
+            baggageData.createdItems.Push(item.transform);
         }
     }
 }

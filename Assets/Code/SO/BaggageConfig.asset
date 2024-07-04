@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf25022a74f0da44b825634964e2c0df, type: 3}
   m_Name: BaggageConfig
   m_EditorClassIdentifier: 
-  shift: {x: -0.7400001, y: 0.91299987, z: -2.4999998}
+  parent: {fileID: 7464433012754243059, guid: de1448695a7a80440b5e4bb6104b710e, type: 3}
   maxAmount: 6
   shakingCoef: 1
   increasingNewItem: 1

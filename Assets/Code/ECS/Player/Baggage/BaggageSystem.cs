@@ -26,6 +26,7 @@ namespace ECS.Player.Baggage
             {
                 ref var baggageData = ref _baggageFilter.Get1(i);
                 baggageData.items = new Stack<ItemData>();
+                baggageData.createdItems = new Stack<Transform>();
             }
         }
 
@@ -55,6 +56,8 @@ namespace ECS.Player.Baggage
 
                 var listener = _baggageFilter.GetEntity(i);
                 _eventService.Invoke<GetItemEvent>(listener);
+
+                GameObject.Destroy(eventData.collider.gameObject);
             }
         }
     }
