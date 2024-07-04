@@ -1,4 +1,5 @@
 ﻿using ECS.BaseComponents;
+using ECS.Events;
 using ECS.Items;
 using ECS.Services;
 using ECS.Tags;
@@ -17,6 +18,7 @@ namespace ECS.Player.Baggage
         private EcsFilter<ItemData, TransformData> _itemsFilter;
 
         private CollisionCheckService _collisionCheckService;
+        private EcsEventService _eventService;
 
         void IEcsInitSystem.Init()
         {
@@ -41,8 +43,6 @@ namespace ECS.Player.Baggage
 
         private void AddItem(OnTriggerEnterEvent eventData)
         {
-
-            Debug.Log("Add item");
             EcsEntity entityWithItemData = _collisionCheckService.FindEntityWithCollision(eventData, _itemsFilter);
             ItemData item = entityWithItemData.Get<ItemData>();
 
@@ -52,6 +52,9 @@ namespace ECS.Player.Baggage
                 baggageData.items.Push(item);
 
                 Debug.Log(baggageData.items.Count);
+
+                var listener = _baggageFilter.GetEntity(i);
+                _eventService.Invoke<GetItemEvent>(listener);
             }
         }
     }

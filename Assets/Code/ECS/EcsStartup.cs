@@ -7,6 +7,7 @@ using LeoEcsPhysics;
 using Voody.UniLeo;
 using ECS.Player.Baggage;
 using ECS.Services;
+using ECS.Events;
 
 namespace ECS
 {
@@ -18,6 +19,7 @@ namespace ECS
 
         public PlayerConfig playerConfig;
         public CameraConfig cameraConfig;
+        public BaggageConfig baggageConfig;
         public Camera camera;
 
         void Start() 
@@ -35,20 +37,24 @@ namespace ECS
 #endif
             _systems
                 .ConvertScene()
-                .Init ();
+                .Init();
 
             _fixedSystems
-                .ConvertScene()
                 .Add(new PlayerMoveSystem())
                 .Add(new CameraMoveSystem())
                 .Add(new BaggageSystem())
+                .Add(new BaggageCreateSystem())
 
                 .OneFramePhysics()
 
                 .Inject(camera)
                 .Inject(cameraConfig)
                 .Inject(playerConfig)
+                .Inject(baggageConfig)
                 .Inject(new CollisionCheckService())
+                .Inject(new EcsEventService(_world))
+
+                .OneFrame<GetItemEvent>()
 
                 .Init();
         }
