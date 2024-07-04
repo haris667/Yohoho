@@ -1161,18 +1161,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Item
       objectReference: {fileID: 0}
-    - target: {fileID: 5508464199119947496, guid: 8aad5c4a7cfb4cd4581384858b7f772e, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6300821138342668093, guid: 8aad5c4a7cfb4cd4581384858b7f772e, type: 3}
-      propertyPath: m_ReceiveShadows
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6300821138342668093, guid: 8aad5c4a7cfb4cd4581384858b7f772e, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: b12c788cbe74d1741bb8d8133690378f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3428,10 +3416,10 @@ PrefabInstance:
       addedObject: {fileID: 1804349950}
     - targetCorrespondingSourceObject: {fileID: 4644678949765286927, guid: 856df8c4e1984844cbaf4980b5adfe58, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1804349955}
+      addedObject: {fileID: 1804349957}
     - targetCorrespondingSourceObject: {fileID: 4644678949765286927, guid: 856df8c4e1984844cbaf4980b5adfe58, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1804349957}
+      addedObject: {fileID: 1804349955}
     - targetCorrespondingSourceObject: {fileID: 4644678949765286927, guid: 856df8c4e1984844cbaf4980b5adfe58, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1804349952}
@@ -3624,7 +3612,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1804349946}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d8ec036d6a4e364a8e21b48b8f7d726, type: 3}
+  m_Script: {fileID: 11500000, guid: 902fd254cae1b2542bd734d43694456b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1883033702 stripped

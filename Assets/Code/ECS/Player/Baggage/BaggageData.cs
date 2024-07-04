@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace ECS.Player.Baggage
 {
-    struct BaggageData 
+    public struct BaggageData 
     {
         public Stack<ItemData> items;
     }
