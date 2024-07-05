@@ -2,7 +2,6 @@
 using ECS.Items;
 using ECS.Player.Baggage;
 using Leopotam.Ecs;
-using UnityEditorInternal.Profiling.Memory.Experimental;
 
 namespace ECS.UI
 {
@@ -28,6 +27,7 @@ namespace ECS.UI
             foreach (var i in _counterFilter)
             {
                 ref var counterData = ref _counterFilter.Get1(i);
+
                 counterData.text.text = GetActiveItems(counterData.type).ToString();
             }
 

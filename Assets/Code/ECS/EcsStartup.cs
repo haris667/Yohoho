@@ -9,6 +9,7 @@ using ECS.Player.Baggage;
 using ECS.Services;
 using ECS.Events;
 using ECS.UI;
+using ECS.Spawner;
 
 namespace ECS
 {
@@ -21,6 +22,7 @@ namespace ECS
         public PlayerConfig playerConfig;
         public CameraConfig cameraConfig;
         public BaggageConfig baggageConfig;
+        public SpawnerConfig spawnerConfig;
         public Camera camera;
 
         void Start() 
@@ -46,6 +48,9 @@ namespace ECS
                 .Add(new BaggageSystem())
                 .Add(new BaggageCreateSystem())
                 .Add(new UpdateCounterSystem())
+                .Add(new UpdateCounterSystem())
+                .Add(new ItemCreateSystem())
+
 
                 .OneFramePhysics()
 
@@ -53,6 +58,7 @@ namespace ECS
                 .Inject(cameraConfig)
                 .Inject(playerConfig)
                 .Inject(baggageConfig)
+                .Inject(spawnerConfig)
                 .Inject(new CollisionCheckService())
                 .Inject(new EcsEventService(_world))
 

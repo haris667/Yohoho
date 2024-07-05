@@ -57,8 +57,6 @@ namespace ECS.Player.Baggage
                 ref var baggageData = ref _baggageFilter.Get1(i);
                 baggageData.items.Push(item);
 
-                Debug.Log(baggageData.items.Count);
-
                 var listener = _baggageFilter.GetEntity(i);
                 _eventService.Invoke<GetItemEvent>(listener);
 
@@ -74,14 +72,17 @@ namespace ECS.Player.Baggage
             foreach (var i in _baggageFilter)
             {
                 ref var baggageData = ref _baggageFilter.Get1(i);
-                if (baggageData.createdItems.Count <= 0 ||
-                    container.type != baggageData.items.Peek().type) return;
 
-                container.items.Add(baggageData.items.Pop());
-                container.textAmount.text = container.items.Count.ToString();
-                GameObject.Destroy(baggageData.createdItems.Pop().gameObject);
+                while ((baggageData.createdItems.Count > 0 &&
+                    container.type == baggageData.items.Peek().type))
+                {
 
-                _eventService.Invoke<RemoveItemEvent>(entityWithContainerData);
+                    container.items.Add(baggageData.items.Pop());
+                    container.textAmount.text = container.items.Count.ToString();
+                    GameObject.Destroy(baggageData.createdItems.Pop().gameObject);
+
+                    _eventService.Invoke<RemoveItemEvent>(entityWithContainerData);
+                }
             }
         }
     }
