@@ -3,6 +3,7 @@ using ECS.Events;
 using ECS.Items;
 using ECS.Services;
 using ECS.Tags;
+using ECS.UI;
 using LeoEcsPhysics;
 using Leopotam.Ecs;
 using System.Collections.Generic;
@@ -15,7 +16,9 @@ namespace ECS.Player.Baggage
         private readonly EcsWorld _world = null;
         private EcsFilter<OnTriggerEnterEvent> _filter;
         private EcsFilter<BaggageData, PlayerTag> _baggageFilter;
+
         private EcsFilter<ItemData, TransformData> _itemsFilter;
+        private EcsFilter<ContainerData> _containerFilter;
 
         private CollisionCheckService _collisionCheckService;
         private EcsEventService _eventService;
@@ -35,10 +38,12 @@ namespace ECS.Player.Baggage
             foreach (var i in _filter)
             {
                 ref var eventData = ref _filter.Get1(i);
-                bool playerCollided = _collisionCheckService.CheckCollisionObjects(eventData, "Item", "Player");
-                if (!playerCollided) return;
 
-                AddItem(eventData);
+                bool playerWithItem = _collisionCheckService.CheckCollisionObjects(eventData, "Item", "Player");
+                bool playerWithContainer = _collisionCheckService.CheckCollisionObjects(eventData, "Container", "Player");
+
+                if (playerWithItem) AddItem(eventData);
+                else if (playerWithContainer) RemoveItem(eventData);
             }
         }
 
@@ -58,6 +63,25 @@ namespace ECS.Player.Baggage
                 _eventService.Invoke<GetItemEvent>(listener);
 
                 GameObject.Destroy(eventData.collider.gameObject);
+            }
+        }
+
+        private void RemoveItem(OnTriggerEnterEvent eventData)
+        {
+            EcsEntity entityWithContainerData = _collisionCheckService.FindEntityWithCollision(eventData, _containerFilter);
+            ContainerData container = entityWithContainerData.Get<ContainerData>();
+
+            foreach (var i in _baggageFilter)
+            {
+                ref var baggageData = ref _baggageFilter.Get1(i);
+                if (baggageData.createdItems.Count <= 0 ||
+                    container.type != baggageData.items.Peek().type) return;
+
+                container.items.Add(baggageData.items.Pop());
+                container.textAmount.text = container.items.Count.ToString();
+                GameObject.Destroy(baggageData.createdItems.Pop().gameObject);
+
+                _eventService.Invoke<RemoveItemEvent>(entityWithContainerData);
             }
         }
     }

@@ -8,6 +8,7 @@ using Voody.UniLeo;
 using ECS.Player.Baggage;
 using ECS.Services;
 using ECS.Events;
+using ECS.UI;
 
 namespace ECS
 {
@@ -44,6 +45,7 @@ namespace ECS
                 .Add(new CameraMoveSystem())
                 .Add(new BaggageSystem())
                 .Add(new BaggageCreateSystem())
+                .Add(new UpdateCounterSystem())
 
                 .OneFramePhysics()
 
@@ -55,6 +57,7 @@ namespace ECS
                 .Inject(new EcsEventService(_world))
 
                 .OneFrame<GetItemEvent>()
+                .OneFrame<RemoveItemEvent>()
 
                 .Init();
         }
